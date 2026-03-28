@@ -39,7 +39,6 @@ const leads = [
 
 async function seed() {
   await AppDataSource.initialize();
-  console.log('✅  Conexión establecida');
 
   const leadRepo = AppDataSource.getRepository(Lead);
   const userRepo = AppDataSource.getRepository(User);
@@ -52,7 +51,6 @@ async function seed() {
       created++;
     }
   }
-  console.log(`🌱  Leads creados: ${created}`);
 
   const demoEmail = 'admin@omc.com';
   const userExists = await userRepo.findOne({ where: { email: demoEmail } });
@@ -61,14 +59,11 @@ async function seed() {
     await userRepo.save(
       userRepo.create({ nombre: 'Admin OMC', email: demoEmail, password: hash }),
     );
-    console.log(`👤  Usuario demo: ${demoEmail} | password: Admin1234!`);
   }
 
   await AppDataSource.destroy();
-  console.log('✅  Seed completado');
 }
 
 seed().catch((err) => {
-  console.error('❌  Error en seed:', err);
   process.exit(1);
 });
